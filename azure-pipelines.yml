@@ -1,22 +1,17 @@
 trigger:
-- master
+- main
 
 pool:
-  vmImage: ubuntu-latest
+  vmImage: 'ubuntu-latest'
+
+variables:
+  GRADLE_OPTS: '-Xmx3072m'
 
 steps:
-# Ensure gradlew is executable
-- script: chmod +x gradlew
-  displayName: Make gradlew executable
-
-# Run Gradle build
 - task: Gradle@3
   inputs:
+    workingDirectory: ''
     gradleWrapperFile: 'gradlew'
+    gradleOptions: '-Xmx3072m'
     tasks: 'clean build test'
-    options: '--refresh-dependencies --stacktrace --info -Xmx3072m'
-    publishJUnitResults: true
-    testResultsFiles: '**/build/test-results/test/TEST-*.xml'
-    javaHomeOption: 'JDKVersion'
-    jdkVersionOption: '1.11'
-    jdkArchitectureOption: 'x64'
+    options: '--refresh-dependencies --stacktrace --info'
